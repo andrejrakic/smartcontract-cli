@@ -51,7 +51,7 @@ DESCRIPTION
 
 ## `smartcontract touch [FILENAME]`
 
-Generate new Solidity file
+Generate new Smart Contract file
 
 ```
 USAGE
@@ -61,7 +61,7 @@ FLAGS
   -c, --chainlink
 
 DESCRIPTION
-  Generate new Solidity file
+  Generate new Smart Contract
 
 EXAMPLES
   $ smartcontract touch

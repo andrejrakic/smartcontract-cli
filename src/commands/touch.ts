@@ -3,17 +3,26 @@ import { exec } from "shelljs";
 import { prompt } from "inquirer";
 import * as contracts from "../contracts/";
 
-const generateSolidityContract = (sourceCode: string, fileName: string) => {
-  CliUx.ux.action.start(`Generating new solidity smart contract`);
+enum Extension {
+  Solidity = `.sol`,
+  Rust = `.rs`,
+}
 
-  exec(`echo "${sourceCode}" > ${fileName}.sol`);
+const generateSmartContract = (
+  sourceCode: string,
+  fileName: string,
+  extension: Extension
+) => {
+  CliUx.ux.action.start(`Generating new smart contract`);
+
+  exec(`echo "${sourceCode}" > ${fileName}${extension}`);
 
   CliUx.ux.action.stop();
-  CliUx.ux.log(`Generated ${fileName}.sol`);
+  CliUx.ux.log(`Generated ${fileName}${extension}`);
 };
 
 export default class Touch extends Command {
-  static description = `Generate new Solidity file`;
+  static description = `Generate new Smart Contract`;
 
   static examples = [
     `smartcontract touch`,
@@ -46,6 +55,8 @@ export default class Touch extends Command {
             { name: `VRFV2Consumer` },
             { name: `KeepersCompatible` },
             { name: `AnyAPIConsumer` },
+            { name: `SolanaPriceFeedConsumer` },
+            { name: `SolanaPriceFeedConsumer (Anchor)` },
           ],
           default: `PriceFeedConsumer`,
         },
@@ -53,34 +64,67 @@ export default class Touch extends Command {
 
       switch (responses.chainlinkSample) {
         case `PriceFeedConsumer`:
-          generateSolidityContract(
+          generateSmartContract(
             contracts.priceFeedConsumer,
-            `PriceFeedConsumer`
+            `PriceFeedConsumer`,
+            Extension.Solidity
           );
           break;
         case `VRFV2Consumer`:
-          generateSolidityContract(contracts.vrfV2Consumer, `VRFV2Consumer`);
+          generateSmartContract(
+            contracts.vrfV2Consumer,
+            `VRFV2Consumer`,
+            Extension.Solidity
+          );
           break;
         case `KeepersCompatible`:
-          generateSolidityContract(
+          generateSmartContract(
             contracts.keeperCompatible,
-            `KeepersCompatible`
+            `KeepersCompatible`,
+            Extension.Solidity
           );
           break;
         case `AnyAPIConsumer`:
-          generateSolidityContract(contracts.anyAPIConsumer, `AnyAPIConsumer`);
+          generateSmartContract(
+            contracts.anyAPIConsumer,
+            `AnyAPIConsumer`,
+            Extension.Solidity
+          );
+          break;
+        case `SolanaPriceFeedConsumer`:
+          generateSmartContract(
+            contracts.solanaPriceFeedConsumer,
+            `SolanaPriceFeedConsumer`,
+            Extension.Rust
+          );
+          break;
+        case `SolanaPriceFeedConsumer (Anchor)`:
+          generateSmartContract(
+            contracts.anchorPriceFeedConsumer,
+            `AnchorPriceFeedConsumer`,
+            Extension.Rust
+          );
           break;
         default:
-          generateSolidityContract(
+          generateSmartContract(
             contracts.priceFeedConsumer,
-            `PriceFeedConsumer`
+            `PriceFeedConsumer`,
+            Extension.Solidity
           );
           break;
       }
     } else {
       args.fileName
-        ? generateSolidityContract(contracts.counter, args.fileName)
-        : generateSolidityContract(contracts.counter, `Counter`);
+        ? generateSmartContract(
+            contracts.counter,
+            args.fileName,
+            Extension.Solidity
+          )
+        : generateSmartContract(
+            contracts.counter,
+            `Counter`,
+            Extension.Solidity
+          );
     }
   }
 }
