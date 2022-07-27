@@ -51,7 +51,7 @@ DESCRIPTION
 
 ## `smartcontract touch [FILENAME]`
 
-Generate new Smart Contract file
+Generate new Smart Contract
 
 ```
 USAGE
