@@ -30,6 +30,7 @@ USAGE
 
 - [`smartcontract help [COMMAND]`](#smartcontract-help-command)
 - [`smartcontract touch [FILENAME]`](#smartcontract-touch-filename)
+- [`smartcontract init`](#smartcontract-init)
 
 ## `smartcontract help [COMMAND]`
 
@@ -69,6 +70,21 @@ EXAMPLES
   $ smartcontract touch [FILENAME]
 
   $ smartcontract touch --chainlink
+```
+
+## `smartcontract init`
+
+Generate new Project
+
+```
+USAGE
+  $ smartcontract init
+
+DESCRIPTION
+  Generate new Project
+
+EXAMPLES
+  $ smartcontract init
 ```
 
 <!-- commandsstop -->
